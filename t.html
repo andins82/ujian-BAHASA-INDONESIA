@@ -1,0 +1,1006 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>CBT Bahasa Indonesia - 30 Soal HOTS</title>
+<style>
+  :root{
+    --blue-900:#0b3d91;
+    --blue-700:#1565c0;
+    --bg:#f3f6fb;
+    --card:#ffffff;
+    --muted:#6b7280;
+    --ok:#16a34a;
+    --ragu:#facc15;
+    --border:#e6eef8;
+    --icon-size: 32px;
+  }
+  *{box-sizing:border-box;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+  body{margin:0;background:var(--bg);color:#0f1724;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:18px;}
+  .card{width:100%;max-width:1200px;background:var(--card);border-radius:12px;box-shadow:0 8px 30px rgba(11,61,145,0.08);padding:20px;}
+  .hidden{display:none}
+  
+  /* [UI FIX: CSS LOGIN] Dibuat lebih sempit (vertikal) */
+  #login-card{
+    max-width:280px; /* Lebar maksimum dikurangi agar persegi panjang vertikal */
+    margin:30px auto; 
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  #login-card h1{margin:0;font-size:26px;color:var(--blue-900)}
+  #login-card p.sub{margin:5px 0 10px;color:var(--muted)}
+  .form-row{margin-bottom:8px;text-align:left}
+  label{display:block;font-weight:600;color:#0f1724;margin-bottom:6px}
+  input[type=text],input[type=password]{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);font-size:15px}
+  .primary-btn{width:100%;background:var(--blue-900);color:white;padding:10px 12px;border-radius:8px;border:none;font-weight:700;cursor:pointer}
+  
+  /* Tombol Toggle Password */
+  .password-row {
+    position: relative;
+  }
+  .password-row input {
+    padding-right: var(--icon-size); 
+  }
+  .toggle-password {
+    position: absolute;
+    right: 5px; 
+    top: 70%; 
+    transform: translateY(-50%);
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 32px; 
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .toggle-password svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--muted);
+  }
+
+  /* [UI FIX: CSS KAMERA] Monitor kamera fix di pojok kiri atas */
+  #camera-monitor {
+    position: fixed;
+    top: 18px;
+    left: 18px; /* Posisi KIRI ATAS */
+    width: 150px;
+    height: 110px;
+    border: 3px solid var(--blue-700);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: none; /* Disembunyikan secara default */
+  }
+  #webcam-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1); /* Efek cermin */
+  }
+  
+  /* EXAM */
+  #exam-layout{display:flex;gap:18px}
+  .main{flex:1;display:flex;flex-direction:column}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 6px;border-bottom:1px solid var(--border)}
+  .title{font-weight:800;color:var(--blue-900)}
+  .timer{background:var(--blue-700);color:white;padding:6px 12px;border-radius:8px;font-weight:700}
+  .menu-btn{border:none;background:transparent;cursor:pointer;padding:6px}
+  .menu-icon span{display:block;height:2px;background:#0f1724;margin:4px 0;border-radius:2px;width:28px}
+  .soal-area{padding:18px;border-radius:10px;margin-top:16px;background:#fafbff;border:1px solid var(--border);min-height:380px;display:flex;flex-direction:column}
+  .bacaan{background:#f3f7ff;padding:14px;border-radius:8px;border:1px solid var(--border);margin-bottom:12px;line-height:1.6}
+  .question{font-weight:700;margin-bottom:10px}
+  .options{display:flex;flex-direction:column;gap:10px}
+  .opt{padding:12px;border-radius:8px;border:1px solid var(--border);cursor:pointer;background:#fff}
+  .opt.selected{outline:2px solid rgba(21,101,192,0.12);background:#e8f2ff}
+  .nav-corners{display:flex;justify-content:space-between;margin-top:14px}
+  .corner-btn{border:none;padding:8px 10px;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px}
+  #btnPrev{background:#e5e7eb;color:#0f1724}
+  #btnRagu{background:var(--ragu);color:#0f1724}
+  #btnNext{background:var(--blue-900);color:#fff}
+  #drawer{width:300px;background:var(--card);border-radius:10px;padding:12px;border:1px solid var(--border);height:560px;overflow:auto}
+  .qgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .qbtn{position:relative;padding:8px;border-radius:8px;border:1px solid var(--border);background:transparent;cursor:pointer;text-align:center;font-weight:700}
+  .qbtn.answered{background:#bbf7d0;color:var(--ok)}
+  .qbtn.ragu{background:var(--ragu);color:#0f1724}
+  .qbtn .badge{position:absolute;top:6px;right:6px;background:#fff;border-radius:10px;padding:2px 6px;font-size:11px;border:1px solid var(--border)}
+  .score{font-size:48px;font-weight:900;color:var(--blue-900);margin:8px 0;text-align:center}
+  .review{max-height:360px;overflow:auto;margin-top:12px;text-align:left}
+  .review-item{background:#fbfdff;border:1px solid var(--border);padding:12px;border-radius:8px;margin-bottom:10px}
+  .label-correct{color:var(--ok);font-weight:700}
+  .label-wrong{color:#e02424;font-weight:700}
+</style>
+</head>
+<body>
+  
+  <div id="camera-monitor" style="display: none;">
+    <video id="webcam-video" autoplay muted playsinline></video>
+  </div>
+
+  <div class="card" id="container">
+    <section id="login-view">
+      <div id="login-card">
+        <h1>SELAMAT DATANG</h1>
+        <p class="sub">Silahkan login terlebih dahulu</p>
+        <div class="form-row">
+          <label>Username</label><input id="inpUser" type="text" autocomplete="off"/>
+        </div>
+        <div class="form-row password-row">
+          <label>Password</label><input id="inpPass" type="password"/>
+          <button type="button" class="toggle-password" id="togglePass" aria-label="Tampilkan Password">
+            <svg id="icon-eye" viewBox="0 0 24 24" style="display: block;">
+              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12c-2.48 0-4.5-2.02-4.5-4.5S9.52 7.5 12 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5zm0-7a2.5 2.5 0 100 5 2.5 2.5 0 000-5z"/>
+            </svg>
+            <svg id="icon-eye-slash" viewBox="0 0 24 24" style="display: none;">
+              <path d="M2 4.27l2.12 2.12c-1.78 1.48-3.08 3.32-3.62 5.61C2.73 16.39 7 19.5 12 19.5c.87 0 1.72-.11 2.54-.31l2.12 2.12L19.73 21 21 19.73 3.27 3 2 4.27zm10 2.23c2.48 0 4.5 2.02 4.5 4.5a4.45 4.45 0 01-.65 2.37l1.71 1.71c.64-.84 1.14-1.87 1.44-3.13C21.27 7.61 17 4.5 12 4.5c-2.81 0-5.24 1.49-6.73 3.61l1.63 1.63c.69-.64 1.54-1.22 2.6-1.55zm-4.72 6.13l.97.97c-.3-.26-.52-.58-.69-.97zM7.5 12a4.5 4.5 0 004.5 4.5c.34 0 .66-.04.97-.13l-4.22-4.22c-.12-.3-.25-.63-.37-.97z"/>
+            </svg>
+          </button>
+        </div>
+        <button id="btnLogin" class="primary-btn">Masuk</button>
+      </div>
+    </section>
+
+    <section id="exam-view" class="hidden">
+      <div id="exam-layout">
+        <div class="main">
+          <div class="topbar">
+            <div class="title">Ujian CBT Bahasa Indonesia</div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <div id="timer" class="timer">60:00</div>
+              <button id="menuToggle" class="menu-btn" title="Daftar Soal (Nomor)"><span class="menu-icon"><span></span><span></span><span></span></span></button>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:18px;margin-top:12px;align-items:flex-start;">
+            <div style="flex:1">
+              <div id="soal-area" class="soal-area"></div>
+
+              <div class="nav-corners">
+                <div><button id="btnPrev" class="corner-btn">← Sebelumnya</button></div>
+                <div><button id="btnRagu" class="corner-btn">Ragu-ragu <span id="tickRagu" style="display:inline-block;width:12px;height:12px;margin-left:8px;border-radius:2px;border:2px solid #fff;vertical-align:middle"></span></button></div>
+                <div><button id="btnNext" class="corner-btn">Selanjutnya →</button></div>
+              </div>
+            </div>
+
+            <aside id="drawer" class="hidden" aria-hidden="true">
+              <div style="font-weight:800;margin-bottom:8px">Daftar Soal</div>
+              <div id="qGrid" class="qgrid"></div>
+              <div style="margin-top:12px;font-size:13px;color:var(--muted)">
+                <div style="display:flex;gap:8px;align-items:center"><div style="width:18px;height:12px;border:1px solid var(--border);border-radius:4px"></div> Belum dijawab</div>
+                <div style="display:flex;gap:8px;align-items:center;margin-top:6px"><div style="width:18px;height:12px;background:linear-gradient(180deg,#ecfdf5,#bbf7d0);border-radius:4px"></div> Sudah dijawab</div>
+                <div style="display:flex;gap:8px;align-items:center;margin-top:6px"><div style="width:18px;height:12px;background:var(--ragu);border-radius:4px"></div> Ragu</div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="confirm1" class="hidden" style="text-align:center">
+      <h2>Apakah Anda sudah yakin dengan jawaban Anda?</h2>
+      <div style="margin-top:12px">
+        <button id="back1" class="corner-btn" style="margin-right:8px">Kembali</button>
+        <button id="submit1" class="corner-btn" style="background:var(--blue-900);color:#fff">Submit</button>
+      </div>
+    </section>
+
+    <section id="confirm2" class="hidden" style="text-align:center">
+      <h2>Apakah Anda sudah benar-benar yakin dengan jawaban Anda?</h2>
+      <div style="margin-top:12px">
+        <button id="back2" class="corner-btn" style="margin-right:8px">Kembali</button>
+        <button id="submit2" class="corner-btn" style="background:var(--blue-900);color:#fff">Submit</button>
+      </div>
+    </section>
+
+    <section id="result-view" class="hidden">
+      <div id="result-area">
+        <div style="text-align:center">
+          <h2>Selamat!
+          Anda telah menyelesaikan ujian Bahasa Indonesia ini</h2>
+          <h3>NILAI</h3>
+          <div id="scoreBox" class="score">0</div>
+          <button id="btnExit" class="corner-btn" style="margin-top:8px">Keluar</button>
+        </div>
+        <h3 style="margin-top:12px">Pembahasan</h3>
+        <div id="reviewList" class="review"></div>
+      </div>
+    </section>
+  </div>
+
+<script>
+/* ========== SETTINGS ========== */
+const TOTAL = 30;
+let current = 0;
+let timeLeft = 60 * 60; // seconds
+let timerInterval = null;
+let warned30 = false;
+let loggedIn = false;
+
+/* answer state */
+let answers = Array(TOTAL).fill(null);
+let ragu = Array(TOTAL).fill(false);
+
+/* ========== QUESTION BANK (30 HOTS LITERASI PANJANG & Kebahasaan SMA 12) ========== */
+const bank = [
+/* 1-3 Passage 1: Dampak AI pada Pendidikan (Literasi Analitis) */
+{
+  passage: `(Bacaan 1) Integrasi Kecerdasan Buatan (AI) ke dalam sistem pendidikan telah menimbulkan debat sengit.
+Pendukung melihat AI sebagai alat revolusioner yang dapat mempersonalisasi pembelajaran, menyediakan umpan balik instan, dan mengurangi beban administrasi guru.
+Namun, kritik berpendapat bahwa ketergantungan pada AI berpotensi menurunkan kemampuan berpikir kritis, membatasi interaksi sosial esensial, dan menciptakan kesenjangan akses teknologi antara sekolah maju dan sekolah di daerah terpencil.
+Salah satu kekhawatiran terbesar adalah mengenai autentisitas pekerjaan siswa, yang semakin sulit diverifikasi di tengah kemudahan akses alat bantu AI generatif.`,
+  q: `Sikap penulis terhadap integrasi AI dalam pendidikan, berdasarkan keseluruhan teks, adalah...`,
+  options: [
+    "Sangat optimis dan mendukung tanpa syarat",
+    "Sangat pesimis dan menolak penggunaan AI",
+    "Netral, hanya memaparkan dampak positifnya saja",
+    "Berhati-hati, memaparkan sisi positif dan negatif secara seimbang",
+    "Lebih menekankan pada aspek administratif guru"
+  ],
+  correct: 3,
+  pembahasan: `Penulis memaparkan kelebihan (revolusioner, personalisasi) dan kekurangan (menurunkan berpikir kritis, kesenjangan, autentisitas), menunjukkan sikap hati-hati/seimbang.`
+},
+{
+  passage: `(Bacaan 1) Integrasi Kecerdasan Buatan (AI) ke dalam sistem pendidikan telah menimbulkan debat sengit.
+Pendukung melihat AI sebagai alat revolusioner yang dapat mempersonalisasi pembelajaran, menyediakan umpan balik instan, dan mengurangi beban administrasi guru.
+Namun, kritik berpendapat bahwa ketergantungan pada AI berpotensi menurunkan kemampuan berpikir kritis, membatasi interaksi sosial esensial, dan menciptakan kesenjangan akses teknologi antara sekolah maju dan sekolah di daerah terpencil.
+Salah satu kekhawatiran terbesar adalah mengenai autentisitas pekerjaan siswa, yang semakin sulit diverifikasi di tengah kemudahan akses alat bantu AI generatif.`,
+  q: `Dampak negatif paling krusial dari AI dalam konteks pendidikan, menurut argumen kritik dalam teks, adalah...`,
+  options: [
+    "Menyediakan umpan balik yang terlalu instan",
+    "Menciptakan kesenjangan sosial antar guru",
+    "Menurunkan kemampuan kognitif tingkat tinggi siswa",
+    "Membuat tugas administrasi guru lebih rumit",
+    "Personalisasi pembelajaran yang berlebihan"
+  ],
+  correct: 2,
+  pembahasan: `Kritik secara spesifik menyebut AI berpotensi 'menurunkan kemampuan berpikir kritis', yang merupakan kemampuan kognitif tingkat tinggi.`
+},
+{
+  passage: `(Bacaan 1) Integrasi Kecerdasan Buatan (AI) ke dalam sistem pendidikan telah menimbulkan debat sengit.
+Pendukung melihat AI sebagai alat revolusioner yang dapat mempersonalisasi pembelajaran, menyediakan umpan balik instan, dan mengurangi beban administrasi guru.
+Namun, kritik berpendapat bahwa ketergantungan pada AI berpotensi menurunkan kemampuan berpikir kritis, membatasi interaksi sosial esensial, dan menciptakan kesenjangan akses teknologi antara sekolah maju dan sekolah di daerah terpencil.
+Salah satu kekhawatiran terbesar adalah mengenai autentisitas pekerjaan siswa, yang semakin sulit diverifikasi di tengah kemudahan akses alat bantu AI generatif.`,
+  q: `Kata 'otentisitas' dalam paragraf tersebut memiliki makna kontekstual yang paling dekat dengan...`,
+  options: [
+    "Kecepatan pengerjaan tugas",
+    "Aspek kebaruan sebuah ide",
+    "Keaslian atau orisinalitas karya siswa",
+    "Tingkat kesulitan materi yang dipelajari",
+    "Kesesuaian format penulisan"
+  ],
+  correct: 2,
+  pembahasan: `Dalam konteks pekerjaan siswa dan alat bantu AI generatif, 'otentisitas' merujuk pada keaslian karya, apakah itu murni hasil pemikiran siswa atau dibuat oleh AI.`
+},
+
+/* 4-6 Passage 2: Krisis Iklim dan Peran Generasi Muda (Literasi Kritis) */
+{
+  passage: `(Bacaan 2) Krisis iklim kini bukan lagi ancaman masa depan, melainkan realitas yang memerlukan respons kolektif segera.
+Laporan Intergovernmental Panel on Climate Change (IPCC) menunjukkan bahwa kenaikan suhu global harus dibatasi hingga 1.5°C di atas tingkat pra-industri untuk menghindari dampak terburuk.
+Generasi muda memegang peran sentral, bukan hanya sebagai pewaris masalah, tetapi sebagai agen perubahan.
+Tuntutan mereka untuk kebijakan yang lebih ambisius di bidang energi terbarukan dan konservasi hutan telah mendorong pemerintah dan korporasi untuk bertindak.
+Mengubah kebiasaan konsumsi yang berlebihan dan mempromosikan ekonomi sirkular adalah dua langkah mikro yang memiliki dampak makro signifikan.`,
+  q: `Pernyataan yang paling akurat menggambarkan peran Generasi Muda menurut teks adalah...`,
+  options: [
+    "Hanya bertindak sebagai korban dari krisis yang ada",
+    "Bertanggung jawab sepenuhnya atas kebijakan energi terbarukan",
+    "Agen perubahan yang menuntut kebijakan ambisius sekaligus mengubah kebiasaan konsumsi",
+    "Hanya berfokus pada konservasi hutan, mengabaikan energi terbarukan",
+    "Menjadi pewaris masalah tanpa memiliki kapasitas untuk bertindak"
+  ],
+  correct: 2,
+  pembahasan: `Teks menyebut mereka 'agen perubahan' yang menuntut kebijakan (makro) dan mengubah kebiasaan konsumsi (mikro).`
+},
+{
+  passage: `(Bacaan 2) Krisis iklim kini bukan lagi ancaman masa depan, melainkan realitas yang memerlukan respons kolektif segera.
+Laporan Intergovernmental Panel on Climate Change (IPCC) menunjukkan bahwa kenaikan suhu global harus dibatasi hingga 1.5°C di atas tingkat pra-industri untuk menghindari dampak terburuk.
+Generasi muda memegang peran sentral, bukan hanya sebagai pewaris masalah, tetapi sebagai agen perubahan.
+Tuntutan mereka untuk kebijakan yang lebih ambisius di bidang energi terbarukan dan konservasi hutan telah mendorong pemerintah dan korporasi untuk bertindak.
+Mengubah kebiasaan konsumsi yang berlebihan dan mempromosikan ekonomi sirkular adalah dua langkah mikro yang memiliki dampak makro signifikan.`,
+  q: `Berdasarkan teks, apa yang menjadi tolok ukur utama (benchmark) untuk menghindari dampak krisis iklim terburuk?`,
+  options: [
+    "Memperbanyak laporan penelitian IPCC",
+    "Pembatasan kenaikan suhu global hingga 1.5°C",
+    "Pengurangan beban administrasi korporasi",
+    "Perluasan penggunaan bahan bakar fosil",
+    "Melakukan daur ulang secara sporadis"
+  ],
+  correct: 1,
+  pembahasan: `Teks secara eksplisit menyebut batasan kenaikan suhu global 1.5°C sebagai target untuk menghindari dampak terburuk.`
+},
+{
+  passage: `(Bacaan 2) Krisis iklim kini bukan lagi ancaman masa depan, melainkan realitas yang memerlukan respons kolektif segera.
+Laporan Intergovernmental Panel on Climate Change (IPCC) menunjukkan bahwa kenaikan suhu global harus dibatasi hingga 1.5°C di atas tingkat pra-industri untuk menghindari dampak terburuk.
+Generasi muda memegang peran sentral, bukan hanya sebagai pewaris masalah, tetapi sebagai agen perubahan.
+Tuntutan mereka untuk kebijakan yang lebih ambisius di bidang energi terbarukan dan konservasi hutan telah mendorong pemerintah dan korporasi untuk bertindak.
+Mengubah kebiasaan konsumsi yang berlebihan dan mempromosikan ekonomi sirkular adalah dua langkah mikro yang memiliki dampak makro signifikan.`,
+  q: `Jenis kalimat utama yang digunakan penulis untuk membuka teks tersebut adalah...`,
+  options: [
+    "Kalimat tanya yang retoris",
+    "Kalimat definisi yang menjelaskan istilah kunci",
+    "Kalimat ajakan yang bersifat persuasi",
+    "Kalimat pernyataan faktual yang memposisikan masalah",
+    "Kalimat larangan yang tegas"
+  ],
+  correct: 3,
+  pembahasan: `Kalimat pertama ('Krisis iklim kini bukan lagi ancaman masa depan, melainkan realitas...') adalah pernyataan tegas yang memposisikan masalah sebagai kenyataan yang butuh respons kolektif.`
+},
+
+/* 7-9 Passage 3: Analisis Struktur Kalimat Efektif (Pengetahuan/Sintaksis) */
+{
+  passage: `(Bacaan 3) Kalimat efektif adalah kalimat yang mampu menyampaikan gagasan pembicara atau penulis secara tepat kepada pendengar atau pembaca.
+Kepaduan, kesejajaran, dan ketepatan diksi merupakan syarat wajib.
+Contoh kalimat tidak efektif: 'Pembangunan jembatan itu dikoordinasikan oleh mereka yang menjabat sebagai kepala dinas provinsi.'
+Kalimat efektifnya: 'Mereka, kepala dinas provinsi, mengoordinasikan pembangunan jembatan itu.'`,
+  q: `Ciri ketidaktepatan struktur pada kalimat tidak efektif yang dicontohkan (Pembangunan jembatan itu dikoordinasikan oleh mereka yang menjabat sebagai kepala dinas provinsi) adalah...`,
+  options: [
+    "Predikatnya terlalu pendek",
+    "Subjeknya terlalu panjang dan tidak jelas",
+    "Penggunaan kata kerja pasif berlebihan ('dikoordinasikan oleh') yang membuat subjek tersamarkan",
+    "Objek mendahului subjek",
+    "Tidak adanya keterangan waktu"
+  ],
+  correct: 2,
+  pembahasan: `Struktur pasif ('dikoordinasikan oleh') memfokuskan pada objek ('pembangunan') sehingga subjek ('mereka') menjadi tidak dominan atau bahkan tersamar sebagai pelengkap. Kalimat efektif biasanya mengutamakan struktur aktif.`
+},
+{
+  passage: `(Bacaan 3) Kalimat efektif adalah kalimat yang mampu menyampaikan gagasan pembicara atau penulis secara tepat kepada pendengar atau pembaca.
+Kepaduan, kesejajaran, dan ketepatan diksi merupakan syarat wajib.
+Contoh kalimat tidak efektif: 'Pembangunan jembatan itu dikoordinasikan oleh mereka yang menjabat sebagai kepala dinas provinsi.'
+Kalimat efektifnya: 'Mereka, kepala dinas provinsi, mengoordinasikan pembangunan jembatan itu.'`,
+  q: `Manakah dari pilihan di bawah ini yang menggunakan struktur kalimat yang **tidak efektif**?`,
+  options: [
+    "Kami akan segera menyelesaikan laporan tersebut.",
+    "Bagi seluruh peserta, diharap segera memasuki ruangan ujian.",
+    "Rapat dilaksanakan di ruang utama, pukul sepuluh pagi.",
+    "Saya membaca buku dan adik saya membaca komik.",
+    "Dia memenangkan kompetisi lari maraton."
+  ],
+  correct: 1,
+  pembahasan: `Pilihan B tidak efektif karena menggunakan konstruksi 'Bagi seluruh peserta', yang membuat kalimat tidak memiliki subjek yang jelas/tegas. Seharusnya: 'Seluruh peserta diharap segera memasuki ruangan ujian.'`
+},
+{
+  passage: `(Bacaan 3) Kalimat efektif adalah kalimat yang mampu menyampaikan gagasan pembicara atau penulis secara tepat kepada pendengar atau pembaca.
+Kepaduan, kesejajaran, dan ketepatan diksi merupakan syarat wajib.
+Contoh kalimat tidak efektif: 'Pembangunan jembatan itu dikoordinasikan oleh mereka yang menjabat sebagai kepala dinas provinsi.'
+Kalimat efektifnya: 'Mereka, kepala dinas provinsi, mengoordinasikan pembangunan jembatan itu.'`,
+  q: `Jika Anda ingin mencapai unsur 'kesejajaran' dalam kalimat, hal yang harus diperhatikan adalah...`,
+  options: [
+    "Semua kata benda diganti kata sifat",
+    "Pemakaian imbuhan atau bentuk kata yang sama untuk unsur-unsur sejenis",
+    "Menggunakan satu jenis tanda baca saja",
+    "Membuat kalimat selalu dalam bentuk pasif",
+    "Menghilangkan semua konjungsi"
+  ],
+  correct: 1,
+  pembahasan: `Kesejajaran (paralelisme) menuntut penggunaan bentuk kata/imbuhan yang sama jika berfungsi dalam deretan yang sejenis, misalnya: 'diurus dan diselesaikan' (bukan 'diurus dan menyelesaikan').`
+},
+
+/* 10-12 Passage 4: Peran Media Sosial dalam Pembentukan Opini Publik (Literasi Media) */
+{
+  passage: `(Bacaan 4) Media sosial telah mengubah lanskap komunikasi, menjadikannya arena utama pembentukan opini publik.
+Algoritma platform dirancang untuk mengutamakan keterlibatan, seringkali dengan memprioritaskan konten yang memicu emosi kuat, seperti kemarahan atau kegembiraan, daripada konten faktual atau informatif.
+Fenomena ini melahirkan 'ruang gema' (echo chamber), di mana individu hanya terpapar pada informasi yang mengonfirmasi keyakinan mereka sendiri, memperkuat polarisasi sosial.
+Sebagai konsumen informasi, kita memiliki tanggung jawab moral untuk mencari sumber yang beragam, memverifikasi klaim, dan menyadari bahwa perhatian adalah komoditas yang dieksploitasi oleh platform.`,
+  q: `Fenomena 'ruang gema' (echo chamber) terjadi karena...`,
+  options: [
+    "Pengguna hanya mengikuti akun resmi pemerintah",
+    "Algoritma hanya menampilkan informasi yang sejalan dengan keyakinan pengguna",
+    "Semua pengguna media sosial memiliki pendapat yang sama",
+    "Media sosial hanya menampilkan konten yang bersifat netral dan faktual",
+    "Pembatasan interaksi antarpengguna"
+  ],
+  correct: 1,
+  pembahasan: `Teks menjelaskan 'ruang gema' adalah hasil algoritma yang membuat individu hanya terpapar pada informasi yang mengonfirmasi keyakinan mereka.`
+},
+{
+  passage: `(Bacaan 4) Media sosial telah mengubah lanskap komunikasi, menjadikannya arena utama pembentukan opini publik.
+Algoritma platform dirancang untuk mengutamakan keterlibatan, seringkali dengan memprioritaskan konten yang memicu emosi kuat, seperti kemarahan atau kegembiraan, daripada konten faktual atau informatif.
+Fenomena ini melahirkan 'ruang gema' (echo chamber), di mana individu hanya terpapar pada informasi yang mengonfirmasi keyakinan mereka sendiri, memperkuat polarisasi sosial.
+Sebagai konsumen informasi, kita memiliki tanggung jawab moral untuk mencari sumber yang beragam, memverifikasi klaim, dan menyadari bahwa perhatian adalah komoditas yang dieksploitasi oleh platform.`,
+  q: `Kesimpulan utama yang dapat ditarik dari bacaan mengenai peran media sosial adalah...`,
+  options: [
+    "Media sosial adalah tempat yang netral untuk mendapatkan semua jenis berita",
+    "Media sosial memperkuat polarisasi karena algoritmanya memprioritaskan emosi kuat dan menciptakan ruang gema",
+    "Pengguna tidak memiliki tanggung jawab apapun dalam penyebaran informasi",
+    "Media sosial wajib dilarang karena merusak komunikasi",
+    "Keterlibatan pengguna adalah hal yang paling tidak penting bagi platform"
+  ],
+  correct: 1,
+  pembahasan: `Kesimpulan teks adalah media sosial, melalui algoritma emosional dan ruang gema, memperkuat polarisasi sosial.`
+},
+{
+  passage: `(Bacaan 4) Media sosial telah mengubah lanskap komunikasi, menjadikannya arena utama pembentukan opini publik.
+Algoritma platform dirancang untuk mengutamakan keterlibatan, seringkali dengan memprioritaskan konten yang memicu emosi kuat, seperti kemarahan atau kegembiraan, daripada konten faktual atau informatif.
+Fenomena ini melahirkan 'ruang gema' (echo chamber), di mana individu hanya terpapar pada informasi yang mengonfirmasi keyakinan mereka sendiri, memperkuat polarisasi sosial.
+Sebagai konsumen informasi, kita memiliki tanggung jawab moral untuk mencari sumber yang beragam, memverifikasi klaim, dan menyadari bahwa perhatian adalah komoditas yang dieksploitasi oleh platform.`,
+  q: `Apa yang dimaksud penulis dengan 'perhatian adalah komoditas yang dieksploitasi oleh platform'?`,
+  options: [
+    "Platform membayar pengguna atas setiap detik perhatian yang diberikan",
+    "Perhatian pengguna dianggap sebagai barang dagangan yang dimanfaatkan (dijual) untuk tujuan ekonomi (iklan)",
+    "Hanya konten yang tidak penting yang mendapatkan perhatian",
+    "Platform menuntut penggunanya agar selalu fokus pada satu topik",
+    "Perhatian harus diberikan secara gratis oleh pengguna"
+  ],
+  correct: 1,
+  pembahasan: `Komoditas dalam konteks bisnis media sosial berarti sesuatu yang bernilai ekonomi. Perhatian pengguna (waktu yang dihabiskan melihat konten) dijual kepada pengiklan.`
+},
+
+/* 13-15 Passage 5: Fungsi Konjungsi Antarkalimat (Pengetahuan/Kohesi) */
+{
+  passage: `(Bacaan 5) Kohesi antarkalimat sangat penting untuk menjaga alur logika tulisan.
+Konjungsi berfungsi sebagai jembatan yang menghubungkan ide dari satu kalimat ke kalimat berikutnya, menentukan jenis hubungan antaride (sebab-akibat, pertentangan, penambahan, dll.).
+Contoh penggunaan yang salah: 'Dia rajin belajar; **meskipun demikian**, dia mendapatkan nilai buruk.' (Terdapat ketidaksesuaian logis antara rajin belajar dan nilai buruk).
+Perbaikan yang mungkin: 'Dia rajin belajar; **oleh karena itu**, dia mendapatkan nilai baik.' atau 'Dia rajin belajar; **namun**, nilainya tidak terlalu memuaskan.'`,
+  q: `Manakah dari konjungsi antarkalimat berikut yang tepat digunakan untuk menyatakan **hubungan pertentangan**?`,
+  options: [
+    "Oleh karena itu",
+    "Setelah itu",
+    "Meskipun demikian",
+    "Selain itu",
+    "Di samping itu"
+  ],
+  correct: 2,
+  pembahasan: `Konjungsi 'Meskipun demikian' (atau 'Namun', 'Akan tetapi') digunakan untuk menyatakan pertentangan atau kontradiksi antara kalimat sebelumnya dan kalimat yang mengikutinya.`
+},
+{
+  passage: `(Bacaan 5) Kohesi antarkalimat sangat penting untuk menjaga alur logika tulisan.
+Konjungsi berfungsi sebagai jembatan yang menghubungkan ide dari satu kalimat ke kalimat berikutnya, menentukan jenis hubungan antaride (sebab-akibat, pertentangan, penambahan, dll.).
+Contoh penggunaan yang salah: 'Dia rajin belajar; **meskipun demikian**, dia mendapatkan nilai buruk.' (Terdapat ketidaksesuaian logis antara rajin belajar dan nilai buruk).
+Perbaikan yang mungkin: 'Dia rajin belajar; **oleh karena itu**, dia mendapatkan nilai baik.' atau 'Dia rajin belajar; **namun**, nilainya tidak terlalu memuaskan.'`,
+  q: `Perhatikan dua kalimat berikut:
+  1. Pemerintah mengeluarkan kebijakan pembatasan impor.
+  2. Industri dalam negeri bisa berkembang.
+  Konjungsi antarkalimat yang paling tepat untuk menggabungkan dua kalimat di atas menjadi hubungan **tujuan** adalah...`,
+  options: [
+    "Sebaliknya",
+    "Dengan demikian",
+    "Untuk itu",
+    "Lalu",
+    "Sementara itu"
+  ],
+  correct: 2,
+  pembahasan: `Konjungsi 'Untuk itu' atau 'Guna itu' digunakan untuk menyatakan tujuan dari tindakan yang disebutkan di kalimat sebelumnya.`
+},
+{
+  passage: `(Bacaan 5) Kohesi antarkalimat sangat penting untuk menjaga alur logika tulisan.
+Konjungsi berfungsi sebagai jembatan yang menghubungkan ide dari satu kalimat ke kalimat berikutnya, menentukan jenis hubungan antaride (sebab-akibat, pertentangan, penambahan, dll.).
+Contoh penggunaan yang salah: 'Dia rajin belajar; **meskipun demikian**, dia mendapatkan nilai buruk.' (Terdapat ketidaksesuaian logis antara rajin belajar dan nilai buruk).
+Perbaikan yang mungkin: 'Dia rajin belajar; **oleh karena itu**, dia mendapatkan nilai baik.' atau 'Dia rajin belajar; **namun**, nilainya tidak terlalu memuaskan.'`,
+  q: `Apa dampak paling signifikan dari ketidakmampuan penulis dalam menjaga kohesi antarkalimat?`,
+  options: [
+    "Penulisan akan menggunakan huruf kapital berlebihan",
+    "Teks tidak dapat dibaca karena tidak ada spasi",
+    "Alur pikiran menjadi terputus, membuat pembaca sulit menangkap makna keseluruhan",
+    "Semua kalimat menjadi terlalu panjang dan sulit diucapkan",
+    "Jumlah paragraf menjadi terlalu sedikit"
+  ],
+  correct: 2,
+  pembahasan: `Fungsi kohesi adalah menghubungkan ide. Jika kohesi gagal, alur pikiran terputus dan teks kehilangan keterpaduan, menyulitkan pemahaman.`
+},
+
+/* 16-18 Passage 6: Fenomena Greenwashing pada Perusahaan (Literasi Finansial/Bisnis) */
+{
+  passage: `(Bacaan 6) Fenomena 'Greenwashing' merupakan strategi pemasaran yang menyesatkan di mana perusahaan menampilkan citra sebagai entitas yang ramah lingkungan, padahal praktik inti bisnis mereka bertentangan dengan klaim tersebut.
+Hal ini sering kali dilakukan melalui jargon yang samar, simbol-simbol hijau, atau sertifikasi yang dipertanyakan validitasnya.
+Tujuan utama greenwashing adalah menarik konsumen yang sadar lingkungan (green consumer) tanpa perlu mengeluarkan biaya besar untuk perubahan operasional yang nyata.
+Dampak greenwashing bukan hanya kerugian bagi konsumen yang tertipu, tetapi juga erosi kepercayaan publik terhadap label-label keberlanjutan, dan yang lebih parah, menghambat kemajuan upaya lingkungan yang sejati.`,
+  q: `Manakah di antara tindakan berikut yang paling merepresentasikan praktik 'Greenwashing' menurut teks?`,
+  options: [
+    "Perusahaan mengalokasikan 80% keuntungannya untuk reboisasi dan audit lingkungan yang transparan.",
+    "Perusahaan membuat kemasan berlabel 'alami' tanpa penjelasan rinci, padahal proses produksinya menghasilkan limbah tinggi.",
+    "Perusahaan mengurangi konsumsi energi fosil sebesar 50% dan menerbitkan laporan keberlanjutan tahunan.",
+    "Perusahaan berinvestasi penuh pada sumber energi terbarukan.",
+    "Perusahaan hanya mempromosikan produk yang benar-benar organik."
+  ],
+  correct: 1,
+  pembahasan: `Greenwashing adalah praktik menyesatkan (klaim samar seperti 'alami' tanpa detail) yang menutupi dampak lingkungan yang buruk (limbah tinggi).`
+},
+{
+  passage: `(Bacaan 6) Fenomena 'Greenwashing' merupakan strategi pemasaran yang menyesatkan di mana perusahaan menampilkan citra sebagai entitas yang ramah lingkungan, padahal praktik inti bisnis mereka bertentangan dengan klaim tersebut.
+Hal ini sering kali dilakukan melalui jargon yang samar, simbol-simbol hijau, atau sertifikasi yang dipertanyakan validitasnya.
+Tujuan utama greenwashing adalah menarik konsumen yang sadar lingkungan (green consumer) tanpa perlu mengeluarkan biaya besar untuk perubahan operasional yang nyata.
+Dampak greenwashing bukan hanya kerugian bagi konsumen yang tertipu, tetapi juga erosi kepercayaan publik terhadap label-label keberlanjutan, dan yang lebih parah, menghambat kemajuan upaya lingkungan yang sejati.`,
+  q: `Apa dampak jangka panjang yang paling berbahaya dari praktik Greenwashing terhadap isu lingkungan global?`,
+  options: [
+    "Meningkatnya biaya pemasaran perusahaan",
+    "Menarik terlalu banyak konsumen yang sadar lingkungan",
+    "Menghambat upaya perbaikan lingkungan yang sejati karena merusak kepercayaan publik",
+    "Mempercepat proses sertifikasi lingkungan",
+    "Membatasi jumlah jargon hijau yang digunakan"
+  ],
+  correct: 2,
+  pembahasan: `Dampak terparah yang disebut penulis adalah 'erosi kepercayaan publik' dan 'menghambat kemajuan upaya lingkungan yang sejati'.`
+},
+{
+  passage: `(Bacaan 6) Fenomena 'Greenwashing' merupakan strategi pemasaran yang menyesatkan di mana perusahaan menampilkan citra sebagai entitas yang ramah lingkungan, padahal praktik inti bisnis mereka bertentangan dengan klaim tersebut.
+Hal ini sering kali dilakukan melalui jargon yang samar, simbol-simbol hijau, atau sertifikasi yang dipertanyakan validitasnya.
+Tujuan utama greenwashing adalah menarik konsumen yang sadar lingkungan (green consumer) tanpa perlu mengeluarkan biaya besar untuk perubahan operasional yang nyata.
+Dampak greenwashing bukan hanya kerugian bagi konsumen yang tertipu, tetapi juga erosi kepercayaan publik terhadap label-label keberlanjutan, dan yang lebih parah, menghambat kemajuan upaya lingkungan yang sejati.`,
+  q: `Diksi 'menyesatkan' dalam konteks teks ini paling tepat merujuk pada upaya perusahaan untuk...`,
+  options: [
+    "Memberi informasi yang terlalu jujur dan terbuka",
+    "Menyampaikan fakta secara bertele-tele",
+    "Membingungkan atau menipu konsumen dengan informasi yang salah atau setengah benar",
+    "Memberikan keuntungan yang besar kepada konsumen",
+    "Menciptakan iklan yang sangat kreatif"
+  ],
+  correct: 2,
+  pembahasan: `Menyesatkan adalah membingungkan atau menipu. Dalam konteks pemasaran, ini berarti memberikan informasi yang salah/setengah benar untuk membentuk citra palsu.`
+},
+
+/* 19-21 Passage 7: Makna Implisit pada Puisi Kontemporer (Literasi Sastra) */
+{
+  passage: `(Bacaan 7) Puisi kontemporer seringkali mengandalkan makna implisit dan simbolisme yang padat untuk menyampaikan pesan.
+Berbeda dengan puisi lama yang terikat rima dan metrum, puisi modern memanfaatkan tipografi, enjambemen (pemisahan larik), dan citraan (imagery) yang lebih bebas.
+'Aku adalah sungai yang mencari hilir, tetapi lumpur kota menahanku.'
+Larik tersebut mengandung metafora yang kompleks. 'Sungai' bisa melambangkan perjalanan hidup atau cita-cita, 'hilir' melambangkan tujuan atau kedamaian, dan 'lumpur kota' melambangkan hambatan, materialisme, atau kekacauan sosial yang menahan pencapaian diri.`,
+  q: `Fungsi utama 'lumpur kota' dalam metafora puisi di atas adalah melambangkan...`,
+  options: [
+    "Keindahan alami sungai di perkotaan",
+    "Hambatan, kekacauan, atau materialisme yang menghentikan cita-cita",
+    "Air bersih yang tersedia melimpah",
+    "Tempat istirahat bagi sungai yang lelah",
+    "Perubahan iklim global"
+  ],
+  correct: 1,
+  pembahasan: `Dalam konteks 'menahanku' (menghentikan), 'lumpur kota' adalah hambatan atau elemen negatif dari kehidupan modern (kota) yang menghalangi pencapaian ('hilir').`
+},
+{
+  passage: `(Bacaan 7) Puisi kontemporer seringkali mengandalkan makna implisit dan simbolisme yang padat untuk menyampaikan pesan.
+Berbeda dengan puisi lama yang terikat rima dan metrum, puisi modern memanfaatkan tipografi, enjambemen (pemisahan larik), dan citraan (imagery) yang lebih bebas.
+'Aku adalah sungai yang mencari hilir, tetapi lumpur kota menahanku.'
+Larik tersebut mengandung metafora yang kompleks. 'Sungai' bisa melambangkan perjalanan hidup atau cita-cita, 'hilir' melambangkan tujuan atau kedamaian, dan 'lumpur kota' melambangkan hambatan, materialisme, atau kekacauan sosial yang menahan pencapaian diri.`,
+  q: `Menurut teks, salah satu elemen pembeda puisi kontemporer dengan puisi lama adalah...`,
+  options: [
+    "Penggunaan larik yang sangat panjang",
+    "Terikat erat pada rima dan metrum yang kaku",
+    "Eksploitasi simbolisme bebas dan tipografi",
+    "Hanya berbicara tentang alam dan bukan tentang kota",
+    "Wajib menggunakan bahasa Melayu Klasik"
+  ],
+  correct: 2,
+  pembahasan: `Teks menyebut puisi kontemporer (modern) memanfaatkan 'tipografi, enjambemen, dan citraan' yang lebih bebas, berbeda dengan puisi lama yang terikat.`
+},
+{
+  passage: `(Bacaan 7) Puisi kontemporer seringkali mengandalkan makna implisit dan simbolisme yang padat untuk menyampaikan pesan.
+Berbeda dengan puisi lama yang terikat rima dan metrum, puisi modern memanfaatkan tipografi, enjambemen (pemisahan larik), dan citraan (imagery) yang lebih bebas.
+'Aku adalah sungai yang mencari hilir, tetapi lumpur kota menahanku.'
+Larik tersebut mengandung metafora yang kompleks. 'Sungai' bisa melambangkan perjalanan hidup atau cita-cita, 'hilir' melambangkan tujuan atau kedamaian, dan 'lumpur kota' melambangkan hambatan, materialisme, atau kekacauan sosial yang menahan pencapaian diri.`,
+  q: `Analisis teks puisi di atas termasuk dalam kategori literasi...`,
+  options: [
+    "Literasi sains",
+    "Literasi numerasi",
+    "Literasi finansial",
+    "Literasi membaca (Sastra dan Memahami Makna Tersirat)",
+    "Literasi visual"
+  ],
+  correct: 3,
+  pembahasan: `Memahami simbolisme dan makna tersirat dalam karya sastra adalah inti dari sub-domain Literasi Membaca (Sastra).`
+},
+
+/* 22-24 Passage 8: Ketepatan Diksi dalam Teks Ilmiah (Pengetahuan/Diksi) */
+{
+  passage: `(Bacaan 8) Penulisan teks ilmiah menuntut ketepatan diksi (pilihan kata) agar makna yang disampaikan tidak ambigu.
+Diksi yang digunakan harus baku, lugas, dan denotatif (makna sebenarnya), menghindari konotasi emosional atau bahasa figuratif.
+Kesalahan umum adalah penggunaan kata-kata umum ('bikin', 'kasih', 'nggak') dalam konteks ilmiah.
+Misalnya, daripada menulis 'Peneliti *bikin* eksperimen baru', lebih tepat: 'Peneliti *melakukan* eksperimen baru'.`,
+  q: `Manakah dari kata-kata berikut yang paling **tepat** digunakan dalam laporan penelitian ilmiah?`,
+  options: [
+    "Ngomongin",
+    "Dikasih",
+    "Mengakibatkan",
+    "Bisa jadi",
+    "Kepo"
+  ],
+  correct: 2,
+  pembahasan: `Kata 'mengakibatkan' adalah diksi baku dan lugas yang tepat untuk konteks ilmiah. Kata-kata lain bersifat kolokial/informal.`
+},
+{
+  passage: `(Bacaan 8) Penulisan teks ilmiah menuntut ketepatan diksi (pilihan kata) agar makna yang disampaikan tidak ambigu.
+Diksi yang digunakan harus baku, lugas, dan denotatif (makna sebenarnya), menghindari konotasi emosional atau bahasa figuratif.
+Kesalahan umum adalah penggunaan kata-kata umum ('bikin', 'kasih', 'nggak') dalam konteks ilmiah.
+Misalnya, daripada menulis 'Peneliti *bikin* eksperimen baru', lebih tepat: 'Peneliti *melakukan* eksperimen baru'.`,
+  q: `Prinsip denotatif dalam diksi ilmiah mengharuskan penulis untuk...`,
+  options: [
+    "Menggunakan sebanyak mungkin kata asing",
+    "Membuat kalimat seolah-olah seperti puisi",
+    "Menyampaikan makna apa adanya tanpa bias emosional atau kiasan",
+    "Menggunakan bahasa yang hanya dipahami oleh ahli tertentu",
+    "Membuat diksi bersifat sangat ambigu"
+  ],
+  correct: 2,
+  pembahasan: `Denotatif berarti makna lugas atau makna sebenarnya, yang sangat penting untuk kejelasan dan objektivitas teks ilmiah.`
+},
+{
+  passage: `(Bacaan 8) Penulisan teks ilmiah menuntut ketepatan diksi (pilihan kata) agar makna yang disampaikan tidak ambigu.
+Diksi yang digunakan harus baku, lugas, dan denotatif (makna sebenarnya), menghindari konotasi emosional atau bahasa figuratif.
+Kesalahan umum adalah penggunaan kata-kata umum ('bikin', 'kasih', 'nggak') dalam konteks ilmiah.
+Misalnya, daripada menulis 'Peneliti *bikin* eksperimen baru', lebih tepat: 'Peneliti *melakukan* eksperimen baru'.`,
+  q: `Perbaikan paling tepat untuk kalimat: 'Pemerintah *bakal* ngasih bantuan pada korban banjir.' adalah...`,
+  options: [
+    "Pemerintah bakal memberi donasi pada korban banjir.",
+    "Pemerintah akan memberikan bantuan pada korban banjir.",
+    "Bantuan pemerintah akan dikasih kepada korban banjir.",
+    "Pemerintah bakal memberikan donasi kepada korban banjir.",
+    "Pemerintah telah ngasih bantuan bagi korban banjir."
+  ],
+  correct: 1,
+  pembahasan: `Mengganti kata kolokial 'bakal' dan 'ngasih' dengan padanan baku 'akan' dan 'memberikan/memberi' adalah perbaikan yang paling tepat dan baku.`
+},
+
+/* 25-27 Passage 9: Tantangan Urban Farming di Jakarta (Literasi Lingkungan) */
+{
+  passage: `(Bacaan 9) Urban farming atau pertanian perkotaan di Jakarta menawarkan solusi ganda: meningkatkan ketahanan pangan lokal dan menyegarkan kualitas udara.
+Namun, implementasinya menghadapi sejumlah tantangan krusial. Keterbatasan lahan vertikal yang memadai, tingginya tingkat polusi udara yang memengaruhi kualitas hasil panen, dan kurangnya edukasi teknis bagi warga kota adalah hambatan utama.
+Untuk mengatasi polusi, diperlukan sistem pertanian tertutup (vertical farming indoor) yang membutuhkan investasi modal tinggi.
+Oleh karena itu, keberhasilan urban farming di Jakarta sangat bergantung pada sinergi kebijakan pemerintah daerah dalam penyediaan insentif dan pelatihan intensif bagi komunitas.`,
+  q: `Mengapa tantangan polusi udara dalam urban farming di Jakarta memerlukan solusi seperti sistem pertanian tertutup (vertical farming indoor)?`,
+  options: [
+    "Sistem tertutup lebih murah dan mudah diimplementasikan.",
+    "Sistem tertutup dapat mengontrol lingkungan tanam dan meminimalisasi paparan polusi eksternal.",
+    "Sistem tertutup dapat meningkatkan interaksi sosial warga kota.",
+    "Karena di dalam ruangan tidak ada hama sama sekali.",
+    "Karena sistem terbuka tidak cocok untuk lahan vertikal."
+  ],
+  correct: 1,
+  pembahasan: `Sistem tertutup diperlukan untuk mengontrol lingkungan dan mengurangi dampak polusi udara yang tinggi (eksternal) terhadap hasil panen.`
+},
+{
+  passage: `(Bacaan 9) Urban farming atau pertanian perkotaan di Jakarta menawarkan solusi ganda: meningkatkan ketahanan pangan lokal dan menyegarkan kualitas udara.
+Namun, implementasinya menghadapi sejumlah tantangan krusial. Keterbatasan lahan vertikal yang memadai, tingginya tingkat polusi udara yang memengaruhi kualitas hasil panen, dan kurangnya edukasi teknis bagi warga kota adalah hambatan utama.
+Untuk mengatasi polusi, diperlukan sistem pertanian tertutup (vertical farming indoor) yang membutuhkan investasi modal tinggi.
+Oleh karena itu, keberhasilan urban farming di Jakarta sangat bergantung pada sinergi kebijakan pemerintah daerah dalam penyediaan insentif dan pelatihan intensif bagi komunitas.`,
+  q: `Sinergi antara kebijakan pemerintah daerah dan komunitas menjadi penentu keberhasilan urban farming karena...`,
+  options: [
+    "Pemerintah daerah tidak memiliki peran sama sekali dalam hal ini.",
+    "Komunitas hanya perlu menanam tanpa perlu insentif atau pelatihan.",
+    "Kebijakan menyediakan insentif dan pelatihan untuk mengatasi tantangan modal dan edukasi teknis yang dihadapi komunitas.",
+    "Hanya pemerintah yang memiliki lahan vertikal yang memadai.",
+    "Urban farming tidak memerlukan dukungan dana sama sekali."
+  ],
+  correct: 2,
+  pembahasan: `Sinergi penting karena kebijakan pemerintah (insentif/pelatihan) dapat mengatasi dua hambatan utama: biaya modal tinggi dan kurangnya edukasi teknis.`
+},
+{
+  passage: `(Bacaan 9) Urban farming atau pertanian perkotaan di Jakarta menawarkan solusi ganda: meningkatkan ketahanan pangan lokal dan menyegarkan kualitas udara.
+Namun, implementasinya menghadapi sejumlah tantangan krusial. Keterbatasan lahan vertikal yang memadai, tingginya tingkat polusi udara yang memengaruhi kualitas hasil panen, dan kurangnya edukasi teknis bagi warga kota adalah hambatan utama.
+Untuk mengatasi polusi, diperlukan sistem pertanian tertutup (vertical farming indoor) yang membutuhkan investasi modal tinggi.
+Oleh karena itu, keberhasilan urban farming di Jakarta sangat bergantung pada sinergi kebijakan pemerintah daerah dalam penyediaan insentif dan pelatihan intensif bagi komunitas.`,
+  q: `Berdasarkan fungsi gramatikalnya, kata 'namun' pada awal paragraf kedua berfungsi sebagai...`,
+  options: [
+    "Kata kerja (Verba)",
+    "Konjungsi antarkalimat (Penghubung Pertentangan)",
+    "Kata sifat (Adjektiva)",
+    "Keterangan tempat (Adverbia)",
+    "Kata benda (Nomina)"
+  ],
+  correct: 1,
+  pembahasan: `Kata 'Namun' atau 'Akan tetapi' merupakan konjungsi (kata hubung) yang digunakan di awal kalimat (antarkalimat) untuk menyatakan hubungan pertentangan dengan ide kalimat sebelumnya.`
+},
+
+/* 28-30 Passage 10: Analisis Kutipan Karya Fiksi dan Nonfiksi (Literasi Ekstensif) */
+{
+  passage: `(Bacaan 10) Membaca kritis membutuhkan kemampuan untuk membedakan genre dan tujuan tulisan.
+Kutipan A: 'Raja tua itu hanya bisa termangu. Cermin kerajaannya telah pecah, membawa serta bayangan keagungan masa lalu dan menyisakan wajah keriput yang penuh sesal.'
+Kutipan B: 'Berdasarkan survei tahunan, 70% remaja perkotaan kini mengakses berita melalui platform video pendek. Data ini menunjukkan pergeseran drastis perilaku konsumsi informasi yang memerlukan perhatian serius dari industri pers tradisional.'`,
+  q: `Perbedaan mendasar antara Kutipan A dan Kutipan B terletak pada...`,
+  options: [
+    "Kutipan A menggunakan bahasa baku, Kutipan B menggunakan bahasa non-baku.",
+    "Kutipan A bertujuan informatif dan didukung data, Kutipan B bertujuan menghibur dan fiktif.",
+    "Kutipan A adalah teks fiksi dengan bahasa figuratif, Kutipan B adalah teks nonfiksi yang berdasarkan data empiris.",
+    "Kutipan A menggunakan konjungsi antarkalimat, Kutipan B tidak.",
+    "Kutipan A menjelaskan survei, Kutipan B menjelaskan kerajaan."
+  ],
+  correct: 2,
+  pembahasan: `Kutipan A menggunakan majas ('cermin kerajaannya telah pecah') dan narasi (Raja tua) yang khas fiksi. Kutipan B menggunakan data ('survei tahunan, 70%') yang khas nonfiksi/ilmiah.`
+},
+{
+  passage: `(Bacaan 10) Membaca kritis membutuhkan kemampuan untuk membedakan genre dan tujuan tulisan.
+Kutipan A: 'Raja tua itu hanya bisa termangu. Cermin kerajaannya telah pecah, membawa serta bayangan keagungan masa lalu dan menyisakan wajah keriput yang penuh sesal.'
+Kutipan B: 'Berdasarkan survei tahunan, 70% remaja perkotaan kini mengakses berita melalui platform video pendek. Data ini menunjukkan pergeseran drastis perilaku konsumsi informasi yang memerlukan perhatian serius dari industri pers tradisional.'`,
+  q: `Gaya bahasa pada Kutipan A, khususnya frasa 'cermin kerajaannya telah pecah', dominan menggunakan majas...`,
+  options: [
+    "Personifikasi",
+    "Ironi",
+    "Metafora",
+    "Hiperbola",
+    "Litotes"
+  ],
+  correct: 2,
+  pembahasan: `'Cermin kerajaannya telah pecah' adalah perbandingan implisit (tidak langsung) antara keruntuhan kekuasaan dan cermin yang pecah, sehingga termasuk majas Metafora.`
+},
+{
+  passage: `(Bacaan 10) Membaca kritis membutuhkan kemampuan untuk membedakan genre dan tujuan tulisan.
+Kutipan A: 'Raja tua itu hanya bisa termangu. Cermin kerajaannya telah pecah, membawa serta bayangan keagungan masa lalu dan menyisakan wajah keriput yang penuh sesal.'
+Kutipan B: 'Berdasarkan survei tahunan, 70% remaja perkotaan kini mengakses berita melalui platform video pendek. Data ini menunjukkan pergeseran drastis perilaku konsumsi informasi yang memerlukan perhatian serius dari industri pers tradisional.'`,
+  q: `Implikasi utama dari data yang disajikan pada Kutipan B bagi industri pers tradisional adalah...`,
+  options: [
+    "Mereka tidak perlu lagi khawatir tentang format berita.",
+    "Mereka harus mulai fokus pada platform video pendek untuk menjangkau audiens remaja.",
+    "Mereka harus tetap menggunakan media cetak sebagai format utama.",
+    "Mereka harus berhenti memproduksi berita sama sekali.",
+    "Pergeseran ini tidak memerlukan respons apapun."
+  ],
+  correct: 1,
+  pembahasan: `Jika 70% remaja beralih ke video pendek, industri pers harus merespons dengan menggeser format penyampaiannya agar tetap relevan dan menjangkau audiens tersebut.`
+}
+];
+// end bank
+
+/* ========== DOM refs ========== */
+const loginView = document.getElementById('login-view');
+const examView = document.getElementById('exam-view');
+const confirm1 = document.getElementById('confirm1');
+const confirm2 = document.getElementById('confirm2');
+const resultView = document.getElementById('result-view');
+
+const btnLogin = document.getElementById('btnLogin');
+const usernameInput = document.getElementById('inpUser');
+const passwordInput = document.getElementById('inpPass');
+const togglePass = document.getElementById('togglePass');
+const iconEye = document.getElementById('icon-eye');
+const iconEyeSlash = document.getElementById('icon-eye-slash');
+
+const timerEl = document.getElementById('timer');
+const menuToggle = document.getElementById('menuToggle');
+const drawer = document.getElementById('drawer');
+const qGrid = document.getElementById('qGrid');
+
+const soalArea = document.getElementById('soal-area');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+const btnRagu = document.getElementById('btnRagu');
+const tickRagu = document.getElementById('tickRagu');
+
+const back1 = document.getElementById('back1');
+const submit1 = document.getElementById('submit1');
+const back2 = document.getElementById('back2');
+const submit2 = document.getElementById('submit2');
+
+const scoreBox = document.getElementById('scoreBox');
+const reviewList = document.getElementById('reviewList');
+const btnExit = document.getElementById('btnExit');
+
+// [UI FIX: DOM KAMERA]
+const cameraMonitor = document.getElementById('camera-monitor');
+const webcamVideo = document.getElementById('webcam-video');
+
+/* ========== HELPERS ========== */
+
+// [SECURITY: Logic Kamera - Fungsi Keamanan Kritis]
+function finalizeCameraFailure() {
+  // Logic: Logout (reset state) -> Show Alert -> Show Login
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+  answers = Array(TOTAL).fill(null);
+  ragu = Array(TOTAL).fill(false);
+  loggedIn = false;
+  stopCamera();
+  cameraMonitor.style.display = 'none';
+  // Perubahan: pesan peringatan spesifik untuk CBT yang aman
+  alert('PERINGATAN! Akses kamera diblokir atau gagal diizinkan. CBT dibatalkan demi keamanan. Silakan izinkan akses kamera lalu login ulang.');
+  showView(loginView);
+}
+
+function stopCamera() {
+  if (window.cameraStream) {
+    window.cameraStream.getTracks().forEach(track => track.stop());
+    window.cameraStream = null;
+  }
+}
+
+function initCamera() {
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        webcamVideo.srcObject = stream;
+        cameraMonitor.style.display = 'block';
+        window.cameraStream = stream; // Simpan stream
+        // [FIX LOGIN: Panggil showView(examView) di sini setelah kamera sukses]
+        showView(examView); 
+      })
+      .catch(error => {
+        // Jika akses diblokir atau ditolak/ditutup, panggil fungsi fail
+        console.error('Kamera tidak dapat diakses:', error);
+        finalizeCameraFailure();
+      });
+  } else {
+    // Jika browser tidak support, panggil fungsi fail
+    finalizeCameraFailure();
+  }
+}
+
+function showView(v){
+  [loginView, examView, confirm1, confirm2, resultView].forEach(x=>x.classList.add('hidden'));
+  v.classList.remove('hidden');
+  
+  // Tampilkan/Sembunyikan kamera berdasarkan view
+  if (v === examView) {
+    // Tampilkan hanya jika stream aktif (berhasil di init)
+    cameraMonitor.style.display = (window.cameraStream && window.cameraStream.active) ? 'block' : 'none';
+  } else {
+    cameraMonitor.style.display = 'none';
+    if(v !== loginView) stopCamera(); // Matikan kamera jika pindah ke halaman selain login/exam
+  }
+}
+
+
+function renderQuestion(){
+  const item = bank[current];
+  soalArea.innerHTML = `
+    <div class="bacaan">${item.passage}</div>
+    <div class="question">Soal ${current+1}: ${item.q}</div>
+    <div class="options">
+      ${item.options.map((op,i)=>`<div class="opt ${answers[current]===i?'selected':''}" data-i="${i}"><strong>${String.fromCharCode(65+i)}.</strong> ${op}</div>`).join('')}
+    </div>
+  `;
+  soalArea.querySelectorAll('.opt').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      answers[current] = parseInt(el.dataset.i);
+      updateQGrid();
+      renderQuestion();
+    });
+  });
+  btnPrev.disabled = current === 0;
+  btnNext.textContent = (current === TOTAL-1) ? 'Selesai' : 'Selanjutnya →';
+  tickRagu.style.background = ragu[current] ? '#facc15' : 'transparent';
+}
+
+function renderQGrid(){
+  qGrid.innerHTML = '';
+  for(let i=0;i<TOTAL;i++){
+    const btn = document.createElement('button');
+    btn.className = 'qbtn';
+    btn.textContent = (i+1);
+    if(answers[i] != null){
+      const b = document.createElement('div');
+b.className = 'badge'; b.textContent = String.fromCharCode(65+answers[i]); btn.appendChild(b);
+      btn.classList.add('answered');
+    }
+    if(ragu[i]) btn.classList.add('ragu');
+    btn.addEventListener('click', ()=>{ current = i; renderQuestion(); drawer.classList.add('hidden'); });
+    qGrid.appendChild(btn);
+  }
+}
+
+function updateQGrid(){
+  const kids = qGrid.children;
+  for(let i=0;i<kids.length;i++){
+    const btn = kids[i];
+    btn.classList.remove('answered','ragu');
+    const old = btn.querySelector('.badge'); if(old) old.remove();
+if(answers[i] != null){ const b = document.createElement('div'); b.className='badge'; b.textContent=String.fromCharCode(65+answers[i]); btn.appendChild(b); btn.classList.add('answered'); }
+    if(ragu[i]) btn.classList.add('ragu');
+  }
+}
+
+function renderReview(){
+  reviewList.innerHTML = '';
+  bank.forEach((s,i)=>{
+    const user = answers[i];
+    const correct = s.correct;
+    const wrap = document.createElement('div'); wrap.className='review-item';
+    wrap.innerHTML = `
+      <div class="bacaan">${s.passage}</div>
+      <p><strong>Soal ${i+1}:</strong> ${s.q}</p>
+      <p>Jawaban Anda: <span class="${user===correct?'label-correct':'label-wrong'}">${user==null?'-':String.fromCharCode(65+user)}</span></p>
+      <p>Jawaban benar: <span class="label-correct">${String.fromCharCode(65+correct)}</span></p>
+      <p><strong>Pembahasan:</strong> ${s.pembahasan}</p>
+    `;
+    reviewList.appendChild(wrap);
+  });
+}
+
+/* ========== TIMER ========== */
+function updateTimerUI(){
+  const m = String(Math.floor(Math.max(0,timeLeft)/60)).padStart(2,'0');
+  const s = String(Math.max(0,timeLeft)%60).padStart(2,'0');
+  timerEl.textContent = `${m}:${s}`;
+}
+function startTimer(){
+  if(timerInterval) return;
+  timerInterval = setInterval(()=>{
+    timeLeft--;
+    updateTimerUI();
+    if(timeLeft === 30 && !warned30){
+      warned30 = true;
+      alert('Peringatan: 30 detik tersisa!');
+    }
+    if(timeLeft <= 0){
+      clearInterval(timerInterval); timerInterval = null;
+      finalizeAndShowResult();
+    }
+  },1000);
+}
+
+/* ========== EVENTS ========== */
+// Logika untuk toggle password menggunakan SVG icons
+togglePass.addEventListener('click', function (e) {
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    
+    if (type === 'password') {
+        iconEye.style.display = 'block';
+        iconEyeSlash.style.display = 'none';
+        this.setAttribute('aria-label', 'Tampilkan Password');
+    } else {
+        iconEye.style.display = 'none';
+        iconEyeSlash.style.display = 'block';
+        this.setAttribute('aria-label', 'Sembunyikan Password');
+    }
+});
+
+btnLogin.addEventListener('click', ()=>{
+  if(!usernameInput.value.trim() || !passwordInput.value.trim()){ alert('Isi username dan password terlebih dahulu.'); return; }
+  
+  // NOTE: Tidak ada validasi username/password spesifik, asumsikan valid jika terisi
+  loggedIn = true;
+  // reset state fresh when login
+  answers = Array(TOTAL).fill(null);
+  ragu = Array(TOTAL).fill(false);
+  current = 0;
+  timeLeft = 60 * 60;
+  warned30 = false;
+
+  initCamera(); // [SECURITY: Inisialisasi Kamera saat login, akan lanjut ke showView(examView) jika sukses]
+  
+  renderQGrid();
+  renderQuestion();
+  startTimer();
+});
+menuToggle.addEventListener('click', ()=>{ drawer.classList.toggle('hidden'); });
+
+btnPrev.addEventListener('click', ()=>{ if(current>0){ current--; renderQuestion(); } });
+btnNext.addEventListener('click', ()=>{ if(current < TOTAL-1){ current++; renderQuestion(); } else { showView(confirm1); } });
+btnRagu.addEventListener('click', ()=>{ ragu[current] = !ragu[current]; updateQGrid(); renderQuestion(); });
+
+back1.addEventListener('click', ()=>{ current = TOTAL-1; showView(examView); renderQuestion(); });
+submit1.addEventListener('click', ()=>{ showView(confirm2); });
+back2.addEventListener('click', ()=>{ current = TOTAL-1; showView(examView); renderQuestion(); });
+submit2.addEventListener('click', ()=>{ finalizeAndShowResult(); });
+
+function finalizeAndShowResult(){
+  if(timerInterval){ clearInterval(timerInterval); timerInterval = null;
+  }
+  stopCamera(); // [SECURITY: Matikan kamera setelah selesai]
+
+  // score
+  let correctCount = 0;
+  for(let i=0;i<TOTAL;i++) if(answers[i] === bank[i].correct) correctCount++;
+  const score = (correctCount / TOTAL) * 100;
+  scoreBox.textContent = score.toFixed(2);
+  renderReview();
+  showView(resultView);
+}
+
+btnExit.addEventListener('click', ()=>{ location.reload(); });
+/* security: leave tab -> reset answers & return to login (timer keeps running) */
+document.addEventListener('visibilitychange', ()=>{
+  if(document.hidden && loggedIn){
+    answers = Array(TOTAL).fill(null);
+    ragu = Array(TOTAL).fill(false);
+    loggedIn = false;
+    showView(loginView);
+    stopCamera(); // Matikan kamera saat keluar tab
+    alert('Anda meninggalkan tab — ujian dibatalkan dan jawaban di-reset. Silakan login kembali jika ingin melanjutkan (timer tetap berjalan).');
+  }
+});
+/* disable right-click & some keys */
+document.addEventListener('contextmenu', e=>e.preventDefault());
+document.addEventListener('keydown', e=>{ if(e.ctrlKey && (e.key==='c'||e.key==='v'||e.key==='x'||e.key==='s')) e.preventDefault(); if(e.key==='F12') e.preventDefault(); });
+/* init UI (login visible only) */
+updateTimerUI();
+renderQGrid();
+renderQuestion();
+showView(loginView);
+</script>
+</body>
+</html>
